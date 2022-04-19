@@ -42,6 +42,18 @@ test('render PhoneInput with value', () => {
   expect(screen.queryByDisplayValue('Moldova (+373)')).toBeVisible();
 });
 
+test('render PhoneInput with invalid phone number', () => {
+  const phone = '+528333323231';
+  render(
+    <Phone value={phone}>
+      <Phone.Country />
+      <Phone.Number />
+    </Phone>
+  );
+
+  expect(screen.queryAllByDisplayValue(phone)).toHaveLength(2);
+});
+
 test('handle PhoneInput number value change', async () => {
   const handleChange = vi.fn<[React.ChangeEvent<HTMLInputElement>], void>();
 

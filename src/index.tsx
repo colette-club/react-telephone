@@ -21,7 +21,7 @@ const PhoneContext = React.createContext<
 >([
   DEFAULT_PHONE_NUMBER,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  () => {},
+  () => { },
 ]);
 
 const usePhoneContext = () => React.useContext(PhoneContext);
@@ -43,10 +43,10 @@ export const _Phone = React.forwardRef<HTMLInputElement, PhoneProps>(
       (_defaultValue
         ? splitPhoneNumber(_defaultValue)
         : defaultCountry && {
-            raw: '',
-            formatted: '',
-            country: getCountryByIso(defaultCountry),
-          }) || DEFAULT_PHONE_NUMBER;
+          raw: '',
+          formatted: '',
+          country: getCountryByIso(defaultCountry),
+        }) || DEFAULT_PHONE_NUMBER;
 
     const [_value, setValue] = React.useState<PhoneNumber>(defaultPhoneNumber);
 
@@ -97,17 +97,17 @@ const Country = React.forwardRef<
     <select
       ref={ref}
       {...props}
-      value={_value.country[2]}
+      value={_value.country?.[2]}
       onChange={(e) => {
         props.onChange && props.onChange(e);
         const country = getCountryByIso(e.target.value as CountryType[2]);
 
         const raw = _value.raw
-          ? replaceDialCode(_value.raw, _value.country[3], '+' + country[3])
-          : '+' + country[3];
+          ? replaceDialCode(_value.raw, _value.country?.[3], '+' + country?.[3])
+          : '+' + country?.[3];
 
         setValue({
-          formatted: applyMask(_value.formatted, country[4]),
+          formatted: applyMask(_value.formatted, country?.[4]),
           raw,
           country,
         });
@@ -136,7 +136,7 @@ const _Number = React.forwardRef<
       {...props}
       placeholder={
         /\d+/.test(props.placeholder || '')
-          ? applyMask(props.placeholder, _value.country[4])
+          ? applyMask(props.placeholder, _value.country?.[4])
           : props.placeholder
       }
       type="tel"
@@ -147,8 +147,8 @@ const _Number = React.forwardRef<
         if (/\d+|^$/.test(e.target.value)) {
           setValue(
             Object.assign({}, _value, {
-              raw: '+' + _value.country[3] + removeMask(e.target.value),
-              formatted: applyMask(e.target.value, _value.country[4]),
+              raw: '+' + _value.country?.[3] + removeMask(e.target.value),
+              formatted: applyMask(e.target.value, _value.country?.[4]),
             })
           );
         }

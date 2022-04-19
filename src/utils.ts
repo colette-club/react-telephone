@@ -40,7 +40,7 @@ export const splitPhoneNumber = (value: string): PhoneNumber | undefined => {
   return {
     raw: value,
     country: country,
-    formatted: applyMask(replaceDialCode(value, country[3], ''), country[4]),
+    formatted: applyMask(replaceDialCode(value, country?.[3], ''), country?.[4]),
   };
 };
 
